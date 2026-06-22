@@ -80,10 +80,10 @@ class AIPlayer:
 
         result = self.check_winner(board)
 
-        if result == "O":
+        if result == "⭕":
             return 1
 
-        if result == "X":
+        if result == "❌":
             return -1
 
         if result == "Draw":
@@ -96,7 +96,7 @@ class AIPlayer:
             for i in range(9):
 
                 if board[i] == "":
-                    board[i] = "O"
+                    board[i] = "⭕"
 
                     score = self.minimax(board, False)
 
@@ -113,7 +113,7 @@ class AIPlayer:
             for i in range(9):
 
                 if board[i] == "":
-                    board[i] = "X"
+                    board[i] = "❌"
 
                     score = self.minimax(board, True)
 
@@ -132,7 +132,7 @@ class AIPlayer:
 
             if board[i] == "":
 
-                board[i] = "O"
+                board[i] = "⭕"
 
                 score = self.minimax(board, False)
 
@@ -209,8 +209,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.write("### You = X")
-st.write("### AI = O")
+st.write("### You = ❌")
+st.write("### AI = ⭕")
 
 difficulty = st.sidebar.selectbox(
     "🎯 Difficulty",
@@ -266,8 +266,8 @@ for row in range(3):
         with cols[col]:
 
             if st.button(
-                 "❌" if game.board[idx] == "X"
-                else "⭕" if game.board[idx] == "O"
+                 "❌" if game.board[idx] == "❌"
+                else "⭕" if game.board[idx] == "⭕"
                 else " ",
                 key=idx
             ):
@@ -277,7 +277,7 @@ for row in range(3):
                     if winner or game.is_draw():
                         st.stop()
 
-                    if game.make_move(idx, "X"):
+                    if game.make_move(idx, "❌"):
 
                         if (
                             game.check_winner() is None
@@ -308,7 +308,7 @@ for row in range(3):
                             if ai_move is not None:
                                 game.make_move(
                                     ai_move,
-                                    "O"
+                                    "⭕"
                                 )
 
                         st.rerun()
@@ -322,13 +322,13 @@ for row in range(3):
 # =========================
 # UPDATE SCORES
 # =========================
-if winner == "X":
+if winner == "❌":
 
     if "counted" not in st.session_state:
         st.session_state.player_score += 1
         st.session_state.counted = True
 
-elif winner == "O":
+elif winner == "⭕":
 
     if "counted" not in st.session_state:
         st.session_state.ai_score += 1
