@@ -241,11 +241,11 @@ winner = game.check_winner()
 # =========================
 # RESULT
 # =========================
-if winner == "X":
+if winner == "❌":
     st.balloons()
     st.success("🎉 Congratulations! You Win!")
 
-elif winner == "O":
+elif winner == "⭕":
     st.error("🤖 AI Wins!")
 
 elif game.is_draw():
