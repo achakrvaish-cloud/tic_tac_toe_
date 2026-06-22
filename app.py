@@ -1,6 +1,6 @@
 import streamlit as st
 import random
-
+import time
 
 # =========================
 # TIC TAC TOE GAME CLASS
@@ -164,43 +164,86 @@ if "draws" not in st.session_state:
 game = st.session_state.game
 ai = AIPlayer()
 
+st.markdown("""
+<style>
+.main {
+    background-color: #0f172a;
+}
+
+h1 {
+    text-align: center;
+    color: #38bdf8;
+}
+
+.stButton > button {
+    width: 100%;
+    height: 90px;
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: 2px solid #38bdf8;
+    background-color: #1e293b;
+    color: white;
+}
+
+.stButton > button:hover {
+    background-color: #38bdf8;
+    color: white;
+}
+
+.score-card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # =========================
 # UI
 # =========================
-st.title("🤖 AI Tic-Tac-Toe")
+st.markdown(
+    "<h1>🤖 AI Tic-Tac-Toe Pro</h1>",
+    unsafe_allow_html=True
+)
 
 st.write("### You = X")
 st.write("### AI = O")
 
-difficulty = st.selectbox(
-    "Select Difficulty",
+difficulty = st.sidebar.selectbox(
+    "🎯 Difficulty",
     ["Easy", "Hard"]
 )
 
 # =========================
 # SCOREBOARD
 # =========================
-st.sidebar.header("🏆 Scoreboard")
+st.sidebar.markdown("## 🏆 Scoreboard")
 
-st.sidebar.write(
-    f"Player Wins: {st.session_state.player_score}"
+st.sidebar.metric(
+    "👤 Player",
+    st.session_state.player_score
 )
 
-st.sidebar.write(
-    f"AI Wins: {st.session_state.ai_score}"
+st.sidebar.metric(
+    "🤖 AI",
+    st.session_state.ai_score
 )
 
-st.sidebar.write(
-    f"Draws: {st.session_state.draws}"
+st.sidebar.metric(
+    "🤝 Draws",
+    st.session_state.draws
 )
-
 winner = game.check_winner()
 
 # =========================
 # RESULT
 # =========================
 if winner == "X":
-    st.success("🎉 You Win!")
+    st.balloons()
+    st.success("🎉 Congratulations! You Win!")
 
 elif winner == "O":
     st.error("🤖 AI Wins!")
@@ -223,7 +266,9 @@ for row in range(3):
         with cols[col]:
 
             if st.button(
-                game.board[idx] if game.board[idx] else " ",
+                 "❌" if game.board[idx] == "X"
+                else "⭕" if game.board[idx] == "O"
+                else " ",
                 key=idx
             ):
 
@@ -255,7 +300,7 @@ for row in range(3):
                                 with st.spinner(
                                     "🤖 AI is thinking..."
                                 ):
-
+                                    time.sleep(1)
                                     ai_move = ai.best_move(
                                         game.board
                                     )
@@ -324,3 +369,13 @@ if st.sidebar.button("Reset Scores"):
         del st.session_state.counted
 
     st.rerun()
+st.markdown("---")
+
+st.markdown(
+"""
+<center>
+Made with ❤️ using Python, OOP, AI & Streamlit
+</center>
+""",
+unsafe_allow_html=True
+)
